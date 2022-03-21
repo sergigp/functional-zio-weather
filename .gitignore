@@ -1,0 +1,21 @@
+.DS_Store
+
+.idea
+*.iml
+*.swp
+
+target
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+.bsp
+
+build/
+
+docker/mysql/data/
+
+.envrc
