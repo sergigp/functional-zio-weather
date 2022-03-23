@@ -21,6 +21,11 @@ libraryDependencies ++= Seq(
   Dependencies.Production.zioConfigTypesafe,
   Dependencies.Production.zioHttp,
   Dependencies.Production.zioMagic,
+  Dependencies.Production.sttp,
+  Dependencies.Production.sttpCirce,
+  Dependencies.Production.circeCore,
+  Dependencies.Production.circeGeneric,
+  Dependencies.Production.circeGeneric,
 )
 
 Test / fork := true

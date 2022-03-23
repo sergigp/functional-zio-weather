@@ -1,6 +1,6 @@
 package com.sergigp.infrastructure.config
 
-import zio.{system, Has, IO, ZIO, ZLayer}
+import zio.{system, Has, ZIO, ZLayer}
 import zio.config._
 import zio.config.ConfigDescriptor._
 import zio.config.typesafe.TypesafeConfigSource
