@@ -5,7 +5,7 @@ import io.circe._
 import io.circe.generic.semiauto._
 import io.circe.syntax._
 import zhttp.http._
-import zio.{Has, URLayer, ZIO}
+import zio.ZIO
 
 class WeatherRoutes(
   findWeatherHandler: FindWeatherHandler
@@ -34,9 +34,5 @@ class WeatherRoutes(
 }
 
 object WeatherRoutes {
-  val live: URLayer[Has[FindWeatherHandler], Has[WeatherRoutes]] = (for {
-    handler <- ZIO.service[FindWeatherHandler]
-  } yield new WeatherRoutes(handler)).toLayer
-
   implicit val responseEncoder: Encoder[WeatherResponse] = deriveEncoder[WeatherResponse]
 }
