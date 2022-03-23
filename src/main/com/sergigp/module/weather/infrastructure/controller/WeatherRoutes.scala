@@ -1,12 +1,17 @@
 package com.sergigp.module.weather.infrastructure.controller
 
-import com.sergigp.module.weather.application.FindWeatherHandler
+import com.sergigp.module.weather.application.{FindWeatherHandler, WeatherResponse}
+import io.circe._
+import io.circe.generic.semiauto._
+import io.circe.syntax._
 import zhttp.http._
 import zio.{Has, URLayer, ZIO}
 
 class WeatherRoutes(
   findWeatherHandler: FindWeatherHandler
 ) {
+  import WeatherRoutes._
+
   val routes: Http[Any, Nothing, Request, Response] = Http.collectZIO[Request] {
     case request @ Method.GET -> !! / "weather" =>
       val queryParams = for {
@@ -22,7 +27,7 @@ class WeatherRoutes(
             .handle(lat, long)
             .fold(
               error => Response.text(s"Error $error happened").setStatus(Status.INTERNAL_SERVER_ERROR),
-              response => Response.text(response.temperature.toString)
+              response => Response.json(response.asJson.toString())
             )
       }
   }
@@ -32,4 +37,6 @@ object WeatherRoutes {
   val live: URLayer[Has[FindWeatherHandler], Has[WeatherRoutes]] = (for {
     handler <- ZIO.service[FindWeatherHandler]
   } yield new WeatherRoutes(handler)).toLayer
+
+  implicit val responseEncoder: Encoder[WeatherResponse] = deriveEncoder[WeatherResponse]
 }

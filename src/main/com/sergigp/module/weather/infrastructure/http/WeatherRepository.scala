@@ -25,7 +25,9 @@ case class WeatherRepositoryLive(appConfig: AppConfig) extends WeatherRepository
     (for {
       backend <- AsyncHttpClientZioBackend()
       request = basicRequest
-        .get(uri"https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&appid=${appConfig.weatherApiKey}")
+        .get(
+          uri"https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&appid=${appConfig.weatherApiKey}&units=metric"
+        )
         .response(asJson[Weather])
       response <- backend.send(request)
       weather  <- ZIO.fromEither(response.body)
